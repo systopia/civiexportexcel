@@ -12,12 +12,12 @@ For discussion, see: http://forum.civicrm.org/index.php/topic,32954.0.html
 See also the "Todo" section for a general roadmap.
 
 To download the latest version of this module:  
-https://github.com/mlutfy/ca.bidon.civiexportexcel
+https://lab.civicrm.org/extensions/civiexportexcel/
 
 This extension was sponsored by:  
 Projet Montréal <http://projetmontreal.org>  
 Development and Peace <https://www.devp.org>  
-Coop SymbioTIC <https://www.symbiotic.coop>
+Coop SymbioTIC <https://www.symbiotic.coop/en>
 
 Warnings
 ========
@@ -27,7 +27,7 @@ Warnings
 Requirements
 ============
 
-- CiviCRM >= 4.4 (previous versions untested)
+- CiviCRM >= 5.0 (previous versions untested)
 
 Installation
 ============
@@ -52,11 +52,11 @@ the "Scheduled Jobs" settings.
 Support
 =======
 
-Please post bug reports in the issue tracker of this project on github:  
-https://github.com/mlutfy/ca.bidon.civiexportexcel/issues
+Please post bug reports in the issue tracker of this project on CiviCRM's Gitlab:  
+https://lab.civicrm.org/extensions/civiexportexcel/issues
 
-For general questions and support, please post on the "Extensions" forum:  
-http://forum.civicrm.org/index.php/board,57.0.html
+For general questions and support, please post on Stack Exchange:  
+https://civicrm.stackexchange.com/
 
 This is a community contributed extension written thanks to the financial
 support of organisations using it, as well as the very helpful and collaborative
@@ -70,10 +70,7 @@ consider financially contributing to support or development of this extension
 if you can.
 
 Commercial support via Coop SymbioTIC:  
-<https://www.symbiotic.coop>
-
-Or you can send me the equivalent of a beer:  
-<https://www.bidon.ca/en/paypal>
+<https://www.symbiotic.coop/en>
 
 Todo
 ====
@@ -86,12 +83,12 @@ Todo
 License
 =======
 
-(C) 2014-2015 Mathieu Lutfy <mathieu@bidon.ca>
+(C) 2014-2018 Mathieu Lutfy <mathieu@symbiotic.coop>
 
 Distributed under the terms of the GNU Affero General public license (AGPL).
 See LICENSE.txt for details.
 
-This extension includes PHPExcel:
+This extension uses PHPExcel:
 
 Version 1.8.0, 2014-03-02
 Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
