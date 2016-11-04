@@ -8,8 +8,8 @@
     <author>Mathieu Lutfy</author>
     <email>mathieu@symbiotic.coop</email>
   </maintainer>
-  <releaseDate>2016-08-15</releaseDate>
-  <version>1.8</version>
+  <releaseDate>2016-11-05</releaseDate>
+  <version>1.10</version>
   <develStage>stable</develStage>
   <compatibility>
     <ver>4.4</ver>
