@@ -1,5 +1,8 @@
 <?php
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 /**
  * @package civiexportexcel
  * @copyright Mathieu Lutfy (c) 2014-2015
@@ -56,16 +59,15 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
       }
     }
 
-    include('PHPExcel/Classes/PHPExcel.php');
-    $objPHPExcel = new PHPExcel();
+    $objPHPExcel = new Spreadsheet();
 
     // Does magic things for date cells
     // https://phpexcel.codeplex.com/discussions/331005
-    PHPExcel_Cell::setValueBinder(new PHPExcel_Cell_AdvancedValueBinder());
+    \PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder(new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder());
 
     // FIXME Set the locale of the XLS file
     // might not really be necessary (concerns mostly functions? not dates?)
-    // $validLocale = PHPExcel_Settings::setLocale('fr');
+    // $validLocale = \PhpOffice\PhpSpreadsheet\Settings::setLocale('fr');
 
     // Set document properties
     $objPHPExcel->getProperties()
@@ -140,7 +142,7 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
           $objPHPExcel->getActiveSheet()
             ->getStyle($cells[$col] . $cpt)
             ->getNumberFormat()
-            ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD);
+            ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDD);
 
           // Set autosize on date columns. 
           // We only do it for dates because we know they have a fixed width, unlike strings.
@@ -150,7 +152,7 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
         elseif (CRM_Utils_Array::value('type', $form->_columnHeaders[$v]) & CRM_Utils_Type::T_MONEY) {
           $objPHPExcel->getActiveSheet()->getStyle($cells[$col])
             ->getNumberFormat()
-            ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
+            ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_GENERAL);
         }
 
         $col++;
@@ -177,7 +179,7 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
       $objWorkSheet->getColumnDimension('A')->setWidth(30);
     }
 
-    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+    $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, 'Xlsx');
     $objWriter->save($filename);
 
     return ''; // FIXME

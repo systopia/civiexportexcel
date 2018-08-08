@@ -52,12 +52,11 @@ class CRM_CiviExportExcel_Utils_SearchExport {
       }
     }
 
-    include('PHPExcel/Classes/PHPExcel.php');
-    $objPHPExcel = new PHPExcel();
+    $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 
     // Does magic things for date cells
     // https://phpexcel.codeplex.com/discussions/331005
-    PHPExcel_Cell::setValueBinder(new PHPExcel_Cell_AdvancedValueBinder());
+    \PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder(new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder());
 
     // Set document properties
     $objPHPExcel->getProperties()
@@ -115,7 +114,7 @@ class CRM_CiviExportExcel_Utils_SearchExport {
           $objPHPExcel->getActiveSheet()
             ->getStyle($cells[$col] . $cpt)
             ->getNumberFormat()
-            ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD);
+            ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDD);
 
           // Set autosize on date columns. 
           // We only do it for dates because we know they have a fixed width, unlike strings.
@@ -125,7 +124,7 @@ class CRM_CiviExportExcel_Utils_SearchExport {
         elseif (CRM_Utils_Array::value('type', $columnHeaders[$k]) & CRM_Utils_Type::T_MONEY) {
           $objPHPExcel->getActiveSheet()->getStyle($cells[$col])
             ->getNumberFormat()
-            ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
+            ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_GENERAL);
         }
 
         $col++;
@@ -134,7 +133,7 @@ class CRM_CiviExportExcel_Utils_SearchExport {
       $cpt++;
     }
 
-    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+    $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, 'Xlsx');
     $objWriter->save('php://output');
 
     return ''; // FIXME
