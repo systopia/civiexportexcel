@@ -8,9 +8,6 @@ easier to use).
 This extension uses the PHPExcel library. See the "License" section below
 for more information (LGPL v2).
 
-For discussion, see: http://forum.civicrm.org/index.php/topic,32954.0.html  
-See also the "Todo" section for a general roadmap.
-
 To download the latest version of this module:  
 https://lab.civicrm.org/extensions/civiexportexcel/
 
@@ -38,9 +35,13 @@ Install as any other regular CiviCRM extension:
    You may need to create it if it does not already exist, and configure
    the correct path in CiviCRM -> Administer -> System -> Directories.
 
-2- Enable the extension from CiviCRM -> Administer -> System -> Extensions.
+2- Run `composer install`
 
-3- If you wish to send emails with the report as an Excel attachment,
+3- Apply this CiviCRM core patch civiexportexcel-core.patch (optional but recommended).
+
+4- Enable the extension from CiviCRM -> Administer -> System -> Extensions.
+
+5- If you wish to send emails with the report as an Excel attachment,
    you must apply the patch in civiexportexcel-core-mail.patch.
 
 Report mails
@@ -88,8 +89,7 @@ License
 Distributed under the terms of the GNU Affero General public license (AGPL).
 See LICENSE.txt for details.
 
-This extension uses PHPExcel:
+This extension relies on phpSpreadsheet by PHPOffice:  
+https://github.com/PHPOffice/PhpSpreadsheet
 
-Version 1.8.0, 2014-03-02
-Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
-http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
+See composer.json for more information about dependencies.

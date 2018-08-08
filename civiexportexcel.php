@@ -136,46 +136,52 @@ function civiexportexcel_civicrm_buildForm($formName, &$form) {
       'template' => 'CRM/Report/Form/Actions-civiexportexcel.tpl',
     ));
 
-    // This hook also gets called when we click on a submit button,
-    // so we can handle that part here too.
-    $buttonName = $form->controller->getButtonName();
-
-    $output = CRM_Utils_Request::retrieve('output', 'String', CRM_Core_DAO::$_nullObject);
-
-    if ($form->_excelButtonName == $buttonName || $output == 'excel2007') {
-      $form->assign('printOnly', TRUE);
-      $printOnly = TRUE;
-      $form->assign('outputMode', 'excel2007');
-
-      // FIXME: this duplicates part of CRM_Report_Form::postProcess()
-      // since we do not have a place to hook into, we hi-jack the form process
-      // before it gets into postProcess.
-
-      // get ready with post process params
-      $form->beginPostProcess();
-
-      // build query
-      $sql = $form->buildQuery(FALSE);
-
-      // build array of result based on column headers. This method also allows
-      // modifying column headers before using it to build result set i.e $rows.
-      $rows = array();
-      $form->buildRows($sql, $rows);
-
-      // format result set.
-      // This seems to cause more problems than it fixes.
-      // $form->formatDisplay($rows);
-
-      // Show stats on a second Excel page.
-      $stats = $form->statistics($rows);
-
-      // assign variables to templates
-      $form->doTemplateAssignment($rows);
-      // FIXME: END.
-
-      CRM_CiviExportExcel_Utils_Report::export2excel2007($form, $rows, $stats);
+    // This is to preserve legacy behaviour, i.e. if core is not patched
+    if (empty($form->supportsExportExcel) && CRM_Utils_Request::retrieveValue('task', 'String') == 'report_instance.excel2007') {
+      civiexportexcel_legacyBuildFormExport($form);
     }
   }
+}
+
+/**
+ * Legacy code for exporting report data, without a patch on CiviCRM core.
+ *
+ * @see civiexportexcel_civicrm_buildForm()
+ * @deprecated
+ */
+function civiexportexcel_legacyBuildFormExport($form) {
+  $output = CRM_Utils_Request::retrieve('output', 'String', CRM_Core_DAO::$_nullObject);
+  $form->assign('printOnly', TRUE);
+  $printOnly = TRUE;
+  $form->assign('outputMode', 'excel2007');
+
+  // FIXME: this duplicates part of CRM_Report_Form::postProcess()
+  // since we do not have a place to hook into, we hi-jack the form process
+  // before it gets into postProcess.
+
+  // get ready with post process params
+  $form->beginPostProcess();
+
+  // build query
+  $sql = $form->buildQuery(FALSE);
+
+  // build array of result based on column headers. This method also allows
+  // modifying column headers before using it to build result set i.e $rows.
+  $rows = array();
+  $form->buildRows($sql, $rows);
+
+  // format result set.
+  // This seems to cause more problems than it fixes.
+  // $form->formatDisplay($rows);
+
+  // Show stats on a second Excel page.
+  $stats = $form->statistics($rows);
+
+  // assign variables to templates
+  $form->doTemplateAssignment($rows);
+  // FIXME: END.
+
+  CRM_CiviExportExcel_Utils_Report::export2excel2007($form, $rows, $stats);
 }
 
 /**
