@@ -1,5 +1,5 @@
 diff --git a/CRM/Report/Form.php b/CRM/Report/Form.php
-index f3dbf456e8..45a07ea1cc 100644
+index 6bf8ca1a09..7c0144e60a 100644
 --- a/CRM/Report/Form.php
 +++ b/CRM/Report/Form.php
 @@ -152,6 +152,9 @@ class CRM_Report_Form extends CRM_Core_Form {
@@ -12,7 +12,28 @@ index f3dbf456e8..45a07ea1cc 100644
    /**
     * Has the report been optimised for group filtering.
     *
-@@ -3429,6 +3432,9 @@ WHERE cg.extends IN ('" . implode("','", $this->_customGroupExtends) . "') AND
+@@ -1393,7 +1396,7 @@ class CRM_Report_Form extends CRM_Core_Form {
+     if (!CRM_Core_Permission::check('view report sql')) {
+       return;
+     }
+-    $ignored_output_modes = array('pdf', 'csv', 'print');
++    $ignored_output_modes = array('pdf', 'csv', 'print', 'excel2007');
+     if (in_array($this->_outputMode, $ignored_output_modes)) {
+       return;
+     }
+@@ -2760,6 +2763,11 @@ WHERE cg.extends IN ('" . implode("','", $this->_customGroupExtends) . "') AND
+       $this->_absoluteUrl = TRUE;
+       $this->addPaging = FALSE;
+     }
++    elseif ($this->_outputMode == 'excel2007') {
++      $printOnly = TRUE;
++      $this->_absoluteUrl = TRUE;
++      $this->addPaging = FALSE;
++    }
+     elseif ($this->_outputMode == 'group') {
+       $this->assign('outputMode', 'group');
+     }
+@@ -3403,6 +3411,9 @@ WHERE cg.extends IN ('" . implode("','", $this->_customGroupExtends) . "') AND
      elseif ($this->_outputMode == 'csv') {
        CRM_Report_Utils_Report::export2csv($this, $rows);
      }
@@ -22,4 +43,3 @@ index f3dbf456e8..45a07ea1cc 100644
      elseif ($this->_outputMode == 'group') {
        $group = $this->_params['groups'];
        $this->add2group($group);
-
