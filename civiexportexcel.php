@@ -174,14 +174,10 @@ function civiexportexcel_legacyBuildFormExport($form) {
   // This seems to cause more problems than it fixes.
   // $form->formatDisplay($rows);
 
-  // Show stats on a second Excel page.
-  $stats = $form->statistics($rows);
-
   // assign variables to templates
   $form->doTemplateAssignment($rows);
-  // FIXME: END.
 
-  CRM_CiviExportExcel_Utils_Report::export2excel2007($form, $rows, $stats);
+  CRM_CiviExportExcel_Utils_Report::export2excel2007($form, $rows);
 }
 
 /**

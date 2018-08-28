@@ -17,7 +17,7 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
    *
    * See @CRM_Report_Utils_Report::export2csv().
    */
-  static function export2excel2007(&$form, &$rows, &$stats) {
+  static function export2excel2007(&$form, &$rows) {
     //Force a download and name the file using the current timestamp.
     $datetime = date('Ymd-Gi', $_SERVER['REQUEST_TIME']);
 
@@ -30,7 +30,7 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
     // always modified
     header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
-    self::generateFile($form, $rows, $stats);
+    self::generateFile($form, $rows);
     CRM_Utils_System::civiExit();
   }
 
@@ -44,7 +44,7 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
    *
    * See @CRM_Report_Utils_Report::makeCsv().
    */
-  static function generateFile(&$form, &$rows, &$stats, $filename = 'php://output') {
+  static function generateFile(&$form, &$rows, $filename = 'php://output') {
     $config = CRM_Core_Config::singleton();
     $csv = '';
 
@@ -159,24 +159,6 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
       }
 
       $cpt++;
-    }
-
-    // Add report statistics on a separate Excel sheet.
-    if (! empty($stats) && ! empty($stats['counts'])) {
-      $cpt = 1;
-
-      $objWorkSheet = $objPHPExcel->createSheet(1);
-      $objWorkSheet->setTitle(ts('Statistics'));
-
-      foreach ($stats['counts'] as $key => $val) {
-        $objWorkSheet
-          ->setCellValue('A' . $cpt, $val['title'])
-          ->setCellValue('B' . $cpt, $val['value']);
-
-        $cpt++;
-      }
-
-      $objWorkSheet->getColumnDimension('A')->setWidth(30);
     }
 
     $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, 'Xlsx');
