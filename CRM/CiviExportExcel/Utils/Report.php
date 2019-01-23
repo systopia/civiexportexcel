@@ -95,8 +95,11 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
     $cpt = 1;
 
     foreach ($headers as $h) {
+      $cell = $cells[$col] . $cpt;
+
       $objPHPExcel->getActiveSheet()
-        ->setCellValue($cells[$col] . $cpt, $h);
+        ->setCellValue($cell, $h)
+        ->getStyle($cell)->applyFromArray(['font' => ['bold' => true]]);
 
       $col++;
     }

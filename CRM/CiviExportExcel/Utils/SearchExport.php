@@ -74,13 +74,11 @@ class CRM_CiviExportExcel_Utils_SearchExport {
     $cpt = 1;
 
     foreach ($headers as $h) {
-      try {
+      $cell = $cells[$col] . $cpt;
+
       $objPHPExcel->getActiveSheet()
-        ->setCellValue($cells[$col] . $cpt, $h);
-      }
-      catch (Exception $e) {
-        die(print_r($e, 1));
-      }
+        ->setCellValue($cell, $h)
+        ->getStyle($cell)->applyFromArray(['font' => ['bold' => true]]);
 
       $col++;
     }
