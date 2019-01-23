@@ -5,16 +5,19 @@ This extension adds the possibility to export directly into the MS Excel
 format from CiviReports and Search results, instead of CSV (less fiddling,
 easier to use).
 
-This extension uses the PHPExcel library. See the "License" section below
-for more information (LGPL v2).
+This extension uses the PhpSpreadsheet library. See the "License" section below
+for more information (LGPL).
 
 To download the latest version of this module:  
 https://lab.civicrm.org/extensions/civiexportexcel/
 
-This extension was sponsored by:  
-Projet Montréal <http://projetmontreal.org>  
-Development and Peace <https://www.devp.org>  
-Coop SymbioTIC <https://www.symbiotic.coop/en>
+This extension is maintained by [Coop SymbioTIC](https://www.symbiotic.coop/en).
+
+Sponsors:
+
+* [Canadian Credit Union Association](https://ccua.com)
+* [Projet Montréal](http://projetmontreal.org)
+* [Development and Peace](https://www.devp.org)
 
 Warnings
 ========
@@ -28,8 +31,6 @@ Requirements
 
 Installation
 ============
-
-Install as any other regular CiviCRM extension:
 
 1- Download this extension and unpack it in your 'extensions' directory.
    You may need to create it if it does not already exist, and configure
@@ -63,15 +64,16 @@ This is a community contributed extension written thanks to the financial
 support of organisations using it, as well as the very helpful and collaborative
 CiviCRM community.
 
-If you appreciate this module, please consider donating 10$ to the CiviCRM project:  
-http://civicrm.org/participate/support-civicrm
+If you appreciate this extension, please consider financially supporting the
+CiviCRM project by becoming a member, a partner or a one-time donation:  
+https://civicrm.org/support-us
 
-While I do my best to provide volunteer support for this extension, please
+While we do our best to provide volunteer support for this extension, please
 consider financially contributing to support or development of this extension
 if you can.
 
 Commercial support via Coop SymbioTIC:  
-<https://www.symbiotic.coop/en>
+https://www.symbiotic.coop/en
 
 Todo
 ====
@@ -79,12 +81,12 @@ Todo
 * Propose a new hook to CiviCRM for a cleaner postProcess implementation (incl. mail).
 * Add OpenDocument (LibreOffice) support.
 * Add admin settings form to enable excel/opendocument formats?
-* Compare performance with tinybutstrong/tbs library?
 
 License
 =======
 
-(C) 2014-2018 Mathieu Lutfy <mathieu@symbiotic.coop>
+(C) 2014-2019 Mathieu Lutfy <mathieu@symbiotic.coop>  
+(C) 2018-2019 Coop SymbioTIC <info@symbiotic.coop>
 
 Distributed under the terms of the GNU Affero General public license (AGPL).
 See LICENSE.txt for details.
