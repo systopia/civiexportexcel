@@ -193,7 +193,12 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
 
     // Re-adjust the column widths
     foreach ($cells as $key => $val) {
-      $w = self::getRecommendedColumnWidth($val, $widths);
+      // Only verify columns that have a header. The 'cells' variable is larger than necessary.
+      if (empty($headers[$key])) {
+        continue;
+      }
+
+      $w = self::getRecommendedColumnWidth($val, $headers[$key], $widths);
 
       // Ignore width that would be too small to be practical.
       if ($w < 5) {
@@ -252,7 +257,7 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
    * Percentile function based on:
    * http://php.net/manual/en/function.stats-stat-percentile.php#79752
    */
-  static public function getRecommendedColumnWidth($column, &$widths) {
+  static public function getRecommendedColumnWidth($column, $header, &$widths) {
     $p = 0.9; // 90% percentile
 
     if (empty($widths[$column])) {
@@ -277,6 +282,10 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
       else {
         $result = $data[$intvalindex];
       }
+    }
+
+    if ($result < mb_strlen($header)) {
+      $result = mb_strlen($header);
     }
 
     // Add a bit of padding.
