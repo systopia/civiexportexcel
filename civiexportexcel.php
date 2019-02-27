@@ -1,7 +1,7 @@
 <?php
 
 require_once 'civiexportexcel.civix.php';
-use CRM_Civiexportexcel_ExtensionUtil as E;
+use CRM_CiviExportExcel_ExtensionUtil as E;
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
@@ -70,6 +70,13 @@ function civiexportexcel_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
  */
 function civiexportexcel_civicrm_managed(&$entities) {
   return _civiexportexcel_civix_civicrm_managed($entities);
+}
+
+/**
+ * Implements hook_civicrm_alterSettingsFolders().
+ */
+function civiexportexcel_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
+  _civiexportexcel_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
 /**

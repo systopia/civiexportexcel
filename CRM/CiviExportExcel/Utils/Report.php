@@ -1,6 +1,6 @@
 <?php
 
-use CRM_Civiexportexcel_ExtensionUtil as E;
+use CRM_CiviExportExcel_ExtensionUtil as E;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -110,12 +110,40 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
       }
     }
 
+    // Row counter
+    $cpt = 1;
+    $first_data_row = 1;
+
     // Used for later calculating the column widths
     $widths = [];
 
+    // Add some report metadata
+    $add_blank_because_of_meta = FALSE;
+
+    if (Civi::settings()->get('civiexportexcel_show_title')) {
+      $cell = 'A' . $cpt;
+      $objPHPExcel->getActiveSheet()
+        ->setCellValue($cell, $title);
+
+      $cpt++;
+      $add_blank_because_of_meta = TRUE;
+    }
+
+    if (Civi::settings()->get('civiexportexcel_show_export_date')) {
+      $cell = 'A' . $cpt;
+      $objPHPExcel->getActiveSheet()
+        ->setCellValue($cell, E::ts('Date prepared: %1', [1 => date('Y-m-d H:i')]));
+
+      $cpt++;
+      $add_blank_because_of_meta = TRUE;
+    }
+
+    if ($add_blank_because_of_meta) {
+      $cpt++;
+    }
+
     // Add the column headers.
     $col = 0;
-    $cpt = 1;
 
     foreach ($headers as $h) {
       $cell = $cells[$col] . $cpt;
@@ -129,9 +157,13 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
       $col++;
     }
 
-    // Add rows.
-    $cpt = 2;
+    // Headers row
+    $cpt++;
 
+    // Used later for row height recalculations.
+    $first_data_row = $cpt;
+
+    // Exported data
     foreach ($rows as $row) {
       $displayRows = array();
       $col = 0;
@@ -221,7 +253,7 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
     // Now set row heights (skip the header)
     $sheet = $objPHPExcel->getActiveSheet();
 
-    for ($i = 2; $i < $cpt; $i++) {
+    for ($i = $first_data_row; $i < $cpt; $i++) {
       $row = new Row($sheet, $i);
       self::autofitRowHeight($row);
     }
