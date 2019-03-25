@@ -36,7 +36,7 @@ Installation
    You may need to create it if it does not already exist, and configure
    the correct path in CiviCRM -> Administer -> System -> Directories.
 
-2- Run `composer install`
+2- If installing from git, run `composer install`.
 
 3- Apply this CiviCRM core patch civiexportexcel-core.patch (optional but recommended).
 
