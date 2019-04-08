@@ -15,13 +15,17 @@ class CRM_CiviExportExcel_Utils_SearchExport {
    * @param Array &$headers
    * @param Array &$columnTypes
    * @param Array &$rows
+   * @param Array $options
+   *    Optional array for further tweaking the export. Known options: 'file_prefix'.
    */
-  static function export2excel2007(&$headers, &$columnTypes, &$rows) {
+  static function export2excel2007(&$headers, &$columnTypes, &$rows, $options = []) {
     //Force a download and name the file using the current timestamp.
     $datetime = date('Ymd-Gi', $_SERVER['REQUEST_TIME']);
 
+    $filename = CRM_Utils_Array::value('file_prefix', $options, 'Export') . '_' . $datetime . '.xlsx';
+
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment;filename="Export_' . $datetime . '.xlsx"');
+    header('Content-Disposition: attachment;filename="' . $filename . '"');
     header("Content-Description: " . ts('CiviCRM export'));
     header("Content-Transfer-Encoding: binary");
     header("Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0");
