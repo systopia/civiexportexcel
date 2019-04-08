@@ -236,3 +236,15 @@ function civiexportexcel_attach_to_email(&$form, &$rows, &$attachments) {
     'cleanName' => $filename,
   );
 }
+
+/**
+ * Implements hook_civicrm_searchTasks().
+ */
+function civiexportexcel_civicrm_searchTasks($objectType, &$tasks) {
+  $path = CRM_Utils_System::getUrlPath();
+
+  if ($objectType == 'contact' && $path == 'civicrm/contact/search/custom') {
+    $id = CRM_Core_Task::TASK_EXPORT;
+    $tasks[$id]['class'] = 'CRM_CiviExportExcel_Form_Task_Export';
+  }
+}
