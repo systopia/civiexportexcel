@@ -1,0 +1,28 @@
+#: ./CRM/CiviExportExcel/Form/ExportExcelSettings.php
+msgid "- select -"
+msgstr ""
+
+#: ./CRM/CiviExportExcel/Form/ExportExcelSettings.php
+msgid "Submit"
+msgstr ""
+
+#: ./CRM/CiviExportExcel/Form/Task/Export.php ./CRM/CiviExportExcel/Utils/SearchExport.php
+msgid "Export"
+msgstr ""
+
+#: ./CRM/CiviExportExcel/Utils/SearchExport.php
+msgid "CiviCRM export"
+msgstr ""
+
+#: ./civiexportexcel.php
+msgid "Export to Excel"
+msgstr ""
+
+#: ./civiexportexcel.php
+msgid "Actions"
+msgstr ""
+
+#: ./templates/CRM/CiviExportExcel/Form/Task/Export.tpl
+msgid "Click on the Export button and save the file. When finished, click Cancel to return to the search results."
+msgstr ""
+
