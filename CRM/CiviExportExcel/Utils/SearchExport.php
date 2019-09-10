@@ -81,7 +81,7 @@ class CRM_CiviExportExcel_Utils_SearchExport {
       $cell = $cells[$col] . $cpt;
 
       $objPHPExcel->getActiveSheet()
-        ->setCellValue($cell, $h)
+        ->setCellValueExplicit($cell, $h, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING)
         ->getStyle($cell)->applyFromArray(['font' => ['bold' => true]]);
 
       $col++;
@@ -108,8 +108,9 @@ class CRM_CiviExportExcel_Utils_SearchExport {
         // Remove HTML, unencode entities
         $value = html_entity_decode(strip_tags($value));
 
+        // We use this to guard against special chars that phpspreadsheet might think are formulas
         $objPHPExcel->getActiveSheet()
-          ->setCellValue($cells[$col] . $cpt, $value);
+          ->setCellValueExplicit($cells[$col] . $cpt, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 
         // Cell formats
         if (CRM_Utils_Array::value('type', $columnHeaders[$k]) & CRM_Utils_Type::T_DATE) {
