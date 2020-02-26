@@ -8,13 +8,14 @@
     <author>Mathieu Lutfy</author>
     <email>mathieu@symbiotic.coop</email>
   </maintainer>
-  <releaseDate>2019-03-26</releaseDate>
-  <version>2.0-beta1</version>
-  <develStage>stable</develStage>
+  <releaseDate>2020-02-26</releaseDate>
+  <version>2.0-SYS-beta2</version>
+  <develStage>beta</develStage>
   <compatibility>
     <ver>5.0</ver>
   </compatibility>
   <comments>Commercial support available from https://www.SymbioTIC.coop</comments>
+  <comments>SYSTOPIA branch</comments>
   <urls>
     <url desc="Main Extension Page">https://github.com/mlutfy/ca.bidon.civiexportexcel</url>
     <url desc="Documentation">https://github.com/mlutfy/ca.bidon.civiexportexcel/blob/master/README.md</url>
