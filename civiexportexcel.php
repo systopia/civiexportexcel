@@ -99,37 +99,23 @@ function civiexportexcel_civicrm_buildForm($formName, &$form) {
   if ($form->elementExists('task')) {
     $e = $form->getElement('task');
 
-    $actions = CRM_Report_BAO_ReportInstance::getActionMetadata();
     $tasks = [];
 
-    foreach ($actions as $key => $val) {
-      // NB: ts() not E::ts(), because this is a core string.
-      if ($key == 'report_instance.csv') {
-        $tasks['report_instance.excel2007'] = [
-          'title' => ts('Export to Excel', ['domain' => 'ca.bidon.civiexportexcel']),
+    foreach ($e->_options as $key => $val) {
+      if (!empty($val['attr']) && $val['attr']['value'] == 'report_instance.csv') {
+        $tasks[] = [
+          'text' => E::ts('Export to Excel'),
+          'attr' => [
+            'value' => 'report_instance.excel2007',
+          ],
         ];
       }
 
-      $tasks[$key] = $val;
+      $tasks[] = $val;
     }
 
-    $form->removeElement('task');
-
-    // Based on CRM_Report_BAO_ReportInstance
     $form->assign('taskMetaData', $tasks);
-    $select = $form->add('select', 'task', NULL, array('' => ts('Actions')), FALSE, array(
-      'class' => 'crm-select2 crm-action-menu fa-check-circle-o huge crm-search-result-actions')
-    );
-
-    foreach ($tasks as $key => $task) {
-      $attributes = array();
-      if (isset($task['data'])) {
-        foreach ($task['data'] as $dataKey => $dataValue) {
-          $attributes['data-' . $dataKey] = $dataValue;
-        }
-      }
-      $select->addOption($task['title'], $key, $attributes);
-    }
+    $e->_options = $tasks;
 
     $smarty = CRM_Core_Smarty::singleton();
     $vars = $smarty->get_template_vars();
