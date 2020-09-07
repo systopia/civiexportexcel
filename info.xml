@@ -8,13 +8,13 @@
     <author>Mathieu Lutfy</author>
     <email>mathieu@symbiotic.coop</email>
   </maintainer>
-  <releaseDate>2019-03-26</releaseDate>
-  <version>2.0-beta1</version>
+  <releaseDate>2020-09-07</releaseDate>
+  <version>2.1</version>
   <develStage>stable</develStage>
   <compatibility>
-    <ver>5.0</ver>
+    <ver>5.29</ver>
   </compatibility>
-  <comments>Commercial support available from https://www.SymbioTIC.coop</comments>
+  <comments></comments>
   <urls>
     <url desc="Main Extension Page">https://lab.civicrm.org/extensions/civiexportexcel/</url>
     <url desc="Documentation">https://lab.civicrm.org/extensions/civiexportexcel/blob/master/README.md</url>
@@ -24,4 +24,7 @@
   <civix>
     <namespace>CRM/CiviExportExcel</namespace>
   </civix>
+  <classloader>
+    <psr4 prefix="Civi\" path="Civi"/>
+  </classloader>
 </extension>

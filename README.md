@@ -27,7 +27,7 @@ Warnings
 Requirements
 ============
 
-- CiviCRM >= 5.0 (previous versions untested)
+- CiviCRM >= 5.29
 
 Installation
 ============
@@ -38,12 +38,7 @@ Installation
 
 2- If installing from git, run `composer install`.
 
-3- Apply this CiviCRM core patch civiexportexcel-core.patch (optional but recommended).
-
-4- Enable the extension from CiviCRM -> Administer -> System -> Extensions.
-
-5- If you wish to send emails with the report as an Excel attachment,
-   you must apply the patch in civiexportexcel-core-mail.patch.
+3- Enable the extension from CiviCRM -> Administer -> System -> Extensions.
 
 Report mails
 ============
@@ -78,15 +73,14 @@ https://www.symbiotic.coop/en
 Todo
 ====
 
-* Propose a new hook to CiviCRM for a cleaner postProcess implementation (incl. mail).
 * Add OpenDocument (LibreOffice) support.
 * Add admin settings form to enable excel/opendocument formats?
 
 License
 =======
 
-(C) 2014-2019 Mathieu Lutfy <mathieu@symbiotic.coop>  
-(C) 2018-2019 Coop SymbioTIC <info@symbiotic.coop>
+(C) 2014-2020 Mathieu Lutfy <mathieu@symbiotic.coop>  
+(C) 2018-2020 Coop SymbioTIC <info@symbiotic.coop>
 
 Distributed under the terms of the GNU Affero General public license (AGPL).
 See LICENSE.txt for details.

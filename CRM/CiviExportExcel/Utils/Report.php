@@ -255,13 +255,23 @@ class CRM_CiviExportExcel_Utils_Report extends CRM_Core_Page {
 
     for ($i = $first_data_row; $i < $cpt; $i++) {
       $row = new Row($sheet, $i);
-      self::autofitRowHeight($row);
+      try {
+        self::autofitRowHeight($row);
+      }
+      catch (Exception $e) {
+        // This can fail if the row is completely empty
+      }
     }
 
+    // Returning the output is required for the outputHandler
+    // it might create memory usage issues, but in theory, the output
+    // is compressed and should not be more than a few MB.
     $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, 'Xlsx');
+    ob_start();
     $objWriter->save($filename);
+    $output = ob_get_clean();
 
-    return ''; // FIXME
+    return $output;
   }
 
   /**

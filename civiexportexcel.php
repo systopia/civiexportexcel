@@ -91,32 +91,9 @@ function civiexportexcel_civicrm_buildForm($formName, &$form) {
     return;
   }
 
-  if (!$form->elementExists('task')) {
-    return;
-  }
-
-  // Insert the "Export to Excel" task before "Export to CSV"
+  // Keeps the legacy 4.6 behaviour of displaying the "Export to Excel" button
+  // @todo Add a setting and disable it by default in the future (but keep for upgrades)
   if ($form->elementExists('task')) {
-    $e = $form->getElement('task');
-
-    $tasks = [];
-
-    foreach ($e->_options as $key => $val) {
-      if (!empty($val['attr']) && $val['attr']['value'] == 'report_instance.csv') {
-        $tasks[] = [
-          'text' => E::ts('Export to Excel'),
-          'attr' => [
-            'value' => 'report_instance.excel2007',
-          ],
-        ];
-      }
-
-      $tasks[] = $val;
-    }
-
-    $form->assign('taskMetaData', $tasks);
-    $e->_options = $tasks;
-
     $smarty = CRM_Core_Smarty::singleton();
     $vars = $smarty->get_template_vars();
 
@@ -128,49 +105,7 @@ function civiexportexcel_civicrm_buildForm($formName, &$form) {
     CRM_Core_Region::instance('page-body')->add(array(
       'template' => 'CRM/Report/Form/Actions-civiexportexcel.tpl',
     ));
-
-    // This is to preserve legacy behaviour, i.e. if core is not patched
-    if (empty($form->supportsExportExcel) && CRM_Utils_Request::retrieveValue('task', 'String') == 'report_instance.excel2007') {
-      civiexportexcel_legacyBuildFormExport($form);
-    }
   }
-}
-
-/**
- * Legacy code for exporting report data, without a patch on CiviCRM core.
- *
- * @see civiexportexcel_civicrm_buildForm()
- * @deprecated
- */
-function civiexportexcel_legacyBuildFormExport($form) {
-  $output = CRM_Utils_Request::retrieve('output', 'String', CRM_Core_DAO::$_nullObject);
-  $form->assign('printOnly', TRUE);
-  $printOnly = TRUE;
-  $form->assign('outputMode', 'excel2007');
-
-  // FIXME: this duplicates part of CRM_Report_Form::postProcess()
-  // since we do not have a place to hook into, we hi-jack the form process
-  // before it gets into postProcess.
-
-  // get ready with post process params
-  $form->beginPostProcess();
-
-  // build query
-  $sql = $form->buildQuery(FALSE);
-
-  // build array of result based on column headers. This method also allows
-  // modifying column headers before using it to build result set i.e $rows.
-  $rows = array();
-  $form->buildRows($sql, $rows);
-
-  // format result set.
-  // This seems to cause more problems than it fixes.
-  // $form->formatDisplay($rows);
-
-  // assign variables to templates
-  $form->doTemplateAssignment($rows);
-
-  CRM_CiviExportExcel_Utils_Report::export2excel2007($form, $rows);
 }
 
 /**
@@ -232,5 +167,45 @@ function civiexportexcel_civicrm_searchTasks($objectType, &$tasks) {
   if ($objectType == 'contact' && $path == 'civicrm/contact/search/custom') {
     $id = CRM_Core_Task::TASK_EXPORT;
     $tasks[$id]['class'] = 'CRM_CiviExportExcel_Form_Task_Export';
+  }
+}
+
+/**
+ * Implements hook_civicrm_alterReportVar().
+ */
+function civiexportexcel_civicrm_alterReportVar($type, &$vars, $form) {
+  switch ($type) {
+  case 'outputhandlers':
+    $vars['\Civi\Report\Civiexportexcel\Excel2007'] = '\Civi\Report\Civiexportexcel\Excel2007';
+    break;
+  case 'actions':
+    // Make sure to add before "Export to CSV"
+    $new = [];
+
+    foreach ($vars as $key => $val) {
+      if ($key == 'report_instance.csv') {
+        $new['report_instance.excel2007'] = ['title' => E::ts('Export to Excel')];
+      }
+
+      $new[$key] = $val;
+    }
+
+    $vars = $new;
+
+    break;
+  }
+}
+
+/**
+ * Implements hook_civicrm_links().
+ */
+function civiexportexcel_civicrm_links($op, $objectName, $objectId, &$links, &$mask, &$values) {
+  if ($op == 'view.report.links') {
+    // These don't seem to quite follow the docs for hook_civicrm_links.
+    // See CRM/Report/Page/InstanceList.php
+    $links['excel2007'] = [
+      'label' => E::ts('Export to Excel'),
+      'url' => CRM_Utils_System::url("civicrm/report/instance/{$objectId}", 'reset=1&force=1&output=excel2007'),
+    ];
   }
 }
