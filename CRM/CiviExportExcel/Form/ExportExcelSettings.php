@@ -6,6 +6,8 @@ use CRM_CiviExportExcel_ExtensionUtil as E;
  * Form controller class
  *
  * @see https://wiki.civicrm.org/confluence/display/CRMDOC/QuickForm+Reference
+ *
+ * @todo Remove in favour of CRM_Admin_Form_Generic
  */
 class CRM_CiviExportExcel_Form_ExportExcelSettings extends CRM_Core_Form {
   private $_settingFilter = ['group' => 'civiexportexcel'];
