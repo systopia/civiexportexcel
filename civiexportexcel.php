@@ -162,7 +162,7 @@ function civiexportexcel_attach_to_email(&$form, &$rows, &$attachments) {
  * Implements hook_civicrm_searchTasks().
  */
 function civiexportexcel_civicrm_searchTasks($objectType, &$tasks) {
-  $path = CRM_Utils_System::getUrlPath();
+  $path = CRM_Utils_System::currentPath();
 
   if ($objectType == 'contact' && $path == 'civicrm/contact/search/custom') {
     $id = CRM_Core_Task::TASK_EXPORT;
