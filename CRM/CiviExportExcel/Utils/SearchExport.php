@@ -91,6 +91,8 @@ class CRM_CiviExportExcel_Utils_SearchExport {
     $cpt = 2;
 
     // Convert the sql headers to civi types
+    // @todo Messy - $headers and $columnTypes are actually the same (c.f. parent function)
+    // and now this..?
     $columnHeaders = CRM_CiviExportExcel_Utils_SearchExport::sqlTypesToCivi($columnTypes);
 
     foreach ($rows as $row) {
@@ -109,8 +111,25 @@ class CRM_CiviExportExcel_Utils_SearchExport {
         $value = html_entity_decode(strip_tags($value));
 
         // We use this to guard against special chars that phpspreadsheet might think are formulas
-        $objPHPExcel->getActiveSheet()
-          ->setCellValueExplicit($cells[$col] . $cpt, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+        if (is_numeric($value)) {
+          $objPHPExcel->getActiveSheet()
+            ->setCellValueExplicit($cells[$col] . $cpt, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+        }
+        elseif (preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $value) || preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/', $value)) {
+          $objPHPExcel->getActiveSheet()
+            ->setCellValue($cells[$col] . $cpt, $value);
+
+          $objPHPExcel->getActiveSheet()
+            ->getStyle($cells[$col] . $cpt)
+            ->getNumberFormat()
+            ->setFormatCode('YYYY-MM-DD hh:mm');
+
+          $objPHPExcel->getActiveSheet()->getColumnDimension($cells[$col])->setAutoSize(true);
+        }
+        else {
+          $objPHPExcel->getActiveSheet()
+            ->setCellValueExplicit($cells[$col] . $cpt, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+        }
 
         // Cell formats
         if (CRM_Utils_Array::value('type', $columnHeaders[$k]) & CRM_Utils_Type::T_DATE) {
