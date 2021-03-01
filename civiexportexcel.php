@@ -100,7 +100,14 @@ function civiexportexcel_civicrm_buildForm($formName, &$form) {
     $form->_excelButtonName = $form->getButtonName('submit', 'excel');
 
     $label = (! empty($vars['instanceId']) ? E::ts('Export to Excel') : E::ts('Preview Excel'));
-    $form->addElement('submit', $form->_excelButtonName, $label);
+    $form->addElement('xbutton',
+      $form->_excelButtonName,
+      $label,
+      [
+        'type' => 'submit',
+        'class' => "crm-button crm-button",
+      ]
+    );
 
     CRM_Core_Region::instance('page-body')->add(array(
       'template' => 'CRM/Report/Form/Actions-civiexportexcel.tpl',

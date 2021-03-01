@@ -39,14 +39,14 @@ class CRM_CiviExportExcel_Form_ExportExcelSettings extends CRM_Core_Form {
           $attributes = CRM_Utils_Array::value('html_attributes', $setting, []);
           $this->$add($setting['html_type'], $name, $setting['title'], $attributes);
         }
-        elseif ($setting['html_type'] == 'Date') {
+        elseif (isset($setting['html_type']) && $setting['html_type'] == 'Date') {
           $attributes = CRM_Utils_Array::value('html_attributes', $setting, []);
           $this->add('text', $name, $setting['title'], $attributes);
 
           $e = $this->getElement($name);
           $e->setAttribute('type', 'date');
         }
-        elseif ($setting['html_type'] == 'Select') {
+        elseif (isset($settings['html_type']) && $setting['html_type'] == 'Select') {
           $optionValues = [
             '' => ts('- select -'),
           ];
