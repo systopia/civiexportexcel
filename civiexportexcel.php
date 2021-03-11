@@ -105,7 +105,7 @@ function civiexportexcel_civicrm_buildForm($formName, &$form) {
       $label,
       [
         'type' => 'submit',
-        'class' => "crm-button crm-button",
+        'class' => "crm-button crm-form-submit crm-button",
       ]
     );
 
